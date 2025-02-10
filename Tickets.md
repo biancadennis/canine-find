@@ -11,6 +11,7 @@ Create App Using Dummy Data
 - When on dashboard user should see default list of dogs
 - When dashboard loads it should fetch breeds and provide a way to select breeds
 - Add input that allows users to enter zip code and add that to search
+- Add ability to sort results
 
 ### Add ability to mark dog as a favorite
 - Each dog result should have a way to mark the dog as a favorite

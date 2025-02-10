@@ -31,7 +31,7 @@ interface IProps {
 export default function RootLayout({
   children,
 }: IProps) {
-  // const { isAuthenticated } = useContext(AuthenticationContext);
+
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>

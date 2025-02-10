@@ -11,7 +11,7 @@ import styles from './Navigation.module.css'
 
 
 export default function Navigation() {
-    const {isAuthenticated, onLogout } = useContext(AuthenticationContext)
+    const { onLogout } = useContext(AuthenticationContext)
     const pathName = usePathname()
 
     return (

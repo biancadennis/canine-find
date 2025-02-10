@@ -10,15 +10,6 @@ import {FavoritesContext} from '@/app/_context/Favorites'
 
 import { getMatch, getDogsByIds } from '@/app/_requests'
 
-const defaultDog = {
-    id: 0,
-    img: 'https://pettownsendvet.com/wp-content/uploads/2023/01/iStock-1052880600.jpg',
-    name: 'good boy',
-    age: 2,
-    zip_code: 19129,
-    breed: 'pit',
-}
-
 export default function MatchFinder() {
     const [match, setMatch] = useState()
     const { favorites } = useContext(FavoritesContext)

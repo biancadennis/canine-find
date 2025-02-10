@@ -2,7 +2,7 @@
 import { createContext, useState } from 'react';
 import { useRouter } from 'next/navigation'
 
-import { login } from '@/app/_requests'
+import { login, logout } from '@/app/_requests'
 
 type TLoginBody = {
     firstName: string
@@ -29,15 +29,13 @@ export const AuthenticationContext = createContext(defaultContext);
 
 export function Authentication({ children }: IProps) {
     const router = useRouter()
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     const onLogin = async (body: TLoginBody) => {
         try {
-            const res = await login({
+            await login({
                 name: body.firstName,
                 email: body.email,
             })
-            setIsAuthenticated(true)
             router.push('/dashboard')
         } catch (e) {
             return false
@@ -45,12 +43,11 @@ export function Authentication({ children }: IProps) {
     }
 
     const onLogout = () => {
-        setIsAuthenticated(false)
+        logout()
         router.push('/')
     }
 
     const contextValue: IAuthentication = {
-        isAuthenticated,
         onLogin,
         onLogout,
     }

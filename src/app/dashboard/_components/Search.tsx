@@ -1,22 +1,12 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { sampleSize, map, includes, pull, join } from 'lodash'
+import { sampleSize, map, includes, pull } from 'lodash'
 
 import { DogGallery } from '@/app/_components/DogGallery'
 import { Checkbox } from '@/app/_components/Checkbox'
 
 import { searchForDogs, getDogsByIds, getDogBreeds } from '@/app/_requests'
-
-
-const defaultBreeds = ['hound', 'pug', 'pit']
-const defaultDog = {
-    img: 'https://pettownsendvet.com/wp-content/uploads/2023/01/iStock-1052880600.jpg',
-    name: 'good boy',
-    age: 2,
-    zip_code: 19129,
-    breed: 'pit',
-}
 
 export default function Search() {
     const [breedsToSearchFor, setBreedsToSearchFor] = useState([])
@@ -56,9 +46,6 @@ export default function Search() {
         getBreeds()
     }, [])
     
-    // useEffect(() => {
-    //     getDogs()
-    // }, [])
     // TODO: handle no dogs coming back from search
     return (
         <div>

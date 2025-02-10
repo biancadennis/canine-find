@@ -33,10 +33,11 @@ const jsonHandler = (result, skipParsing) => {
     }
   }
 
-  const withParams = (params) => params ? `?${params}` : ''
 
   // login should maybe return a 204 instead of 200? skipping the parse step
   export const login = (body) => makeRequest('/auth/login', 'POST', body, true)
+
+  export const logout = () => makeRequest('/auth/logout', 'POST')
 
   export const searchForDogs = (queryParams) => makeRequest(`/dogs/search?${queryParams}`)
   
