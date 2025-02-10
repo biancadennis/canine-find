@@ -1,0 +1,16 @@
+.dogTile {
+    background-color: white;
+    color: black;
+    border: 2px solid purple;
+    border-radius: 3px;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 350px;
+    height: 600px;
+}
+
+.img {
+    height: 200px;
+}
