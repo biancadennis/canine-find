@@ -1,10 +1,12 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { sample, map, includes, pull } from 'lodash'
+import { sampleSize, map, includes, pull, join } from 'lodash'
 
 import { DogGallery } from '@/app/_components/DogGallery'
 import { Checkbox } from '@/app/_components/Checkbox'
+
+import { searchForDogs, getDogsByIds, getDogBreeds } from '@/app/_requests'
 
 
 const defaultBreeds = ['hound', 'pug', 'pit']
@@ -31,29 +33,37 @@ export default function Search() {
         setBreedsToSearchFor(newList)
     }
 
-    const getDogs = async (queryParams) => {
-        const fetchedDogs = await new Array(26).fill().map((e, i) => {
-            return {...defaultDog, id: i, name: defaultDog.name + i, breed: sample(defaultBreeds)}
-        })
+    const getDogs = async () => {
+        const  stringData = new URLSearchParams(breedsToSearchFor.map(s=>['breeds',s]))
+        const searchString = stringData.toString()
+        const fetchedDogs = await searchForDogs(searchString)
+        const { resultIds, total, next, prev } = fetchedDogs
+        const res = await getDogsByIds(resultIds)
         
-        setDogs(fetchedDogs)
+        setDogs(res)
     }
 
-    const getBreeds = async (queryParams) => {
-        setAvailableBreeds(defaultBreeds)
+    const getBreeds = async () => {
+        const res = await getDogBreeds()
+        setAvailableBreeds(sampleSize(res, 5))
     }
+
+    useEffect(() => {
+        getDogs()
+    }, [breedsToSearchFor])
 
     useEffect(() => {
         getBreeds()
     }, [])
     
-    useEffect(() => {
-        getDogs()
-    }, [])
+    // useEffect(() => {
+    //     getDogs()
+    // }, [])
+    // TODO: handle no dogs coming back from search
     return (
         <div>
             <fieldset>
-                <legend>Search by breed:</legend>
+                <legend>Search by a popular breed:</legend>
             {map(availableBreeds, breed => {
                 const isChecked = includes(breedsToSearchFor, breed)
                 return (

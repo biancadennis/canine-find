@@ -1,12 +1,14 @@
 'use client'
 import { useContext, useState} from 'react'
 import Link from 'next/link'
-import { isEmpty } from 'lodash'
+import { isEmpty, map } from 'lodash'
 
 import { Button } from '@/app/_components/Button'
 import { DogTile } from '@/app/_components/DogTile'
 
 import {FavoritesContext} from '@/app/_context/Favorites'
+
+import { getMatch, getDogsByIds } from '@/app/_requests'
 
 const defaultDog = {
     id: 0,
@@ -37,8 +39,11 @@ export default function MatchFinder() {
         )
     }
 
-    const findMatch = () => {
-        setMatch(defaultDog)
+    const findMatch = async () => {
+        const favIds = map(favorites, dog => dog.id)
+        const { match } = await getMatch(favIds)
+        const doggos = await getDogsByIds([match])
+        doggos.length > 0 && setMatch(doggos[0])
     }
 
     return (

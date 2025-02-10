@@ -39,4 +39,5 @@ Things I would improve with more time
 - Search by location
 - Dark Mode
 - cache favorites
+- UNIT TESTING
 

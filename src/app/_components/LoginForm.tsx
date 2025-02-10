@@ -4,7 +4,6 @@ import { useState, useContext } from 'react'
 import Input from '@/app/_components/Input'
 import { AuthenticationContext } from '@/app/_context/Authentication'
 
-
 export default function Login() {
     const [firstName, setFirstName] = useState('')
     const [email, setEmail] = useState('')
@@ -20,13 +19,22 @@ export default function Login() {
     const hasEmail = email.length > 1 // TODO: validate email formatted properly
     const submitDisabled = errorMessage || !hasEmail || !hasFirstName
 
-    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        //TODO: increment error count when login fails
+    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        onLogin({
+        const okResult = await onLogin({
             firstName,
             email,
         })
+
+        if (!okResult) {
+            setErrorCount(errorCount + 1)
+            setErrorMessage('error logging in')
+        }
+    }
+
+    const handleInputUpdate = (fn, value) => {
+        errorMessage && setErrorMessage(undefined)
+        fn(value)
     }
 
     return (
@@ -44,8 +52,8 @@ export default function Login() {
                 </>
             )}
             <form onSubmit={onSubmit}>
-                <Input type="text" value={firstName} label="First Name" onChange={(value) => setFirstName(value)} />\
-                <Input type="text" value={email} label="Email" onChange={(value) => setEmail(value)} />
+                <Input type="text" value={firstName} label="First Name" onChange={(value) => handleInputUpdate(setFirstName, value)} />\
+                <Input type="text" value={email} label="Email" onChange={(value) => handleInputUpdate(setEmail, value)} />
                 <button type="submit" disabled={submitDisabled}>Find Your Canine</button>
             </form>
         </div>
