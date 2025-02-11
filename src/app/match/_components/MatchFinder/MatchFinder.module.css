@@ -1,0 +1,11 @@
+.findMatch {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+.matchWrapper {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+}

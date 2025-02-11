@@ -10,6 +10,8 @@ import {FavoritesContext} from '@/app/_context/Favorites'
 
 import { getMatch, getDogsByIds } from '@/app/_requests'
 
+import styles from './MatchFinder.module.css'
+
 export default function MatchFinder() {
     const [match, setMatch] = useState()
     const { favorites } = useContext(FavoritesContext)
@@ -24,7 +26,7 @@ export default function MatchFinder() {
 
     if (match) {
         return (
-            <div>
+            <div className={styles.matchWrapper}>
                 <DogTile dog={match} />
             </div>
         )
@@ -38,6 +40,8 @@ export default function MatchFinder() {
     }
 
     return (
-        <Button onClick={findMatch}>Find Your Match</Button>
+        <div className={styles.findMatch}>
+            <Button type="primary" onClick={findMatch}>Find Your Match</Button>
+        </div>
     )
 }
