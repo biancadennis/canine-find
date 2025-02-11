@@ -22,24 +22,24 @@ export default function DogTile({dog}: IProps) {
 
 
     const isFavorite = some(favorites, ['id', id])
-    // TODO: call out if breed is a favorite
-    // Add way to favorite dog
 
     return (
         <div className={styles.dogTile}>
             <div>
-            <img className={styles.img} alt="" src={img} />
-            <h2>{name}</h2>
-            <span>
-                Breed: {breed}
-            </span>
-           <span> Age: {age}</span>
-            <span>Location: {zip_code}</span>
+                <img className={styles.img} alt="" src={img} />
             </div>
-            <div>
-            {isFavoriteBreed && (
-                    <span>(You Love this Breed!)</span>
-                )}
+            <div className={styles.contentWrapper}>
+                <div className={styles.infoWrapper}>
+                    <h2 className={styles.name}>{name}</h2>
+                    <span>
+                        Breed: {breed}
+                    </span>
+                    <span> Age: {age}</span>
+                    <span>Location: {zip_code}</span>
+                    {isFavoriteBreed && (
+                        <span>(You Love this Breed!)</span>
+                    )}
+                </div>
                 <Button type="primary" onClick={() => onToggleFavorite(dog) }>
                     {isFavorite ? 'Remove from favorites' : 'Add to favorites'}
                 </Button>

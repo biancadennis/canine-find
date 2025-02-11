@@ -5,28 +5,28 @@
     justify-content: space-between;
     margin-bottom: 10px;
     align-items: center;
-        background-color: #0D3309;
+    background-color: #0D3309;
         color: white;
-        /* margin: 20px; */
+}
 
-    .mainNav {
-        display: flex;
-        gap: 0px 20px;
-    }
+.mainNav {
+    display: flex;
+    gap: 0px 20px;
+}
 
-    .link {
-        padding: 0px 10px;
-        &:focus,
+.link {
+    padding: 0px 10px;
+    &:active,
         &:hover {
-        text-decoration: underline;
+            text-decoration: underline;
             text-underline-offset: 5px;
         }
-                                }
-                .company {
-                    display: flex;
-                    align-items: center;
-        
-                    font-size: 20px;
-                    background-color: #2B2B2B;
-                    height: 50px;
+                }
+
+.company {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+        background-color: #2B2B2B;
+        height: 50px;
 }
