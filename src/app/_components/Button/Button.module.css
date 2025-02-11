@@ -12,6 +12,7 @@
 
 .secondary {
     border: 3px solid #0D3309;
+    background-color: white;
     color: #2B2B2B;
 
     &:hover,

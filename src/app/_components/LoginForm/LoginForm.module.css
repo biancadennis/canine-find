@@ -1,7 +1,9 @@
 .form {
     margin-top: 50px;
 }
-
+.wrapper {
+    padding: 50px;
+}
 .input input {
     height: 25px;
     margin-bottom: 10px;

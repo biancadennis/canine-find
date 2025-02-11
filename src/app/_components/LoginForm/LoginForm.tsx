@@ -40,7 +40,7 @@ export default function Login() {
     }
 
     return (
-        <div>
+        <div className={styles.wrapper}>
             {errorMessage && (
                 <>
                     <span>

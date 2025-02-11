@@ -1,12 +1,17 @@
 .dogTile {
     background-color: #2B2B2B;
-        color: white;
+    color: white;
     border-radius: 3px;
     display: flex;
-        flex-direction: row;
+    flex-direction: row;
         width: 500px;
         height: 200px;
         overflow: hidden;
+        @media only screen and (max-width: 600px) {
+                width: 100%;
+                height: 500px;
+                flex-direction: column;
+            }
     }
     
     .name {
@@ -25,7 +30,16 @@
     flex-direction: column;
     justify-content: space-between;
     padding: 10px;
+    @media only screen and (max-width: 600px) {
+            height: 100%;
+        }
 }
 .img {
     height: 200px;
+    @media only screen and (max-width: 600px) {
+            width: 100%;
+            height: unset;
+            max-height: 200px;
+            object-fit: cover;
+        }
 }

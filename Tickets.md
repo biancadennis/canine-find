@@ -40,5 +40,6 @@ Things I would improve with more time
 - Search by location
 - Dark Mode
 - cache favorites
+- clear favorites on logout
 - UNIT TESTING
 

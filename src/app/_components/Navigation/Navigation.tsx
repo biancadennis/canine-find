@@ -24,7 +24,7 @@ export default function Navigation() {
                     <div className={styles.mainNav}>
                     <Link className={styles.link} href="/favorites">Favorites</Link>
                     <Link className={styles.link} href="/match">Find a match</Link>
-                    <Button className={styles.link} onClick={onLogout}>Logout</Button>
+                    <Button className={styles.logout} onClick={onLogout}>Logout</Button>
                     </div>
                 )}
             

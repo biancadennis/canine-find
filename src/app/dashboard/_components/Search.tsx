@@ -91,9 +91,8 @@ export default function Search() {
             
             </select>
             {map(breedsToSearchFor, breed => {
-                    const isChecked = includes(breedsToSearchFor, breed)
                     return (
-                        <Checkbox className={styles.checkbox} key={breed} isChecked={isChecked} label={breed} onChange={(shouldBeChecked) => toggleBreed(shouldBeChecked, breed)} />
+                        <Checkbox className={styles.checkbox} key={breed} isChecked={true} label={breed} onChange={(shouldBeChecked) => toggleBreed(shouldBeChecked, breed)} />
                     )
                 })}
                 <div className={styles.sorter}>
