@@ -1,0 +1,13 @@
+.form {
+    margin-top: 50px;
+}
+
+.input input {
+    height: 25px;
+    margin-bottom: 10px;
+}
+
+.inputsWrapper {
+    display: flex;
+    flex-direction: column;
+}

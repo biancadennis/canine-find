@@ -38,7 +38,7 @@ export default function RootLayout({
         <App>
           <Navigation />
           <main className={styles.main}>
-        {children}
+          {children}
           </main>
         </App>
       </body>

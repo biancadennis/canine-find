@@ -1,5 +1,6 @@
 'use client'
 import { useContext} from 'react'
+import cn from 'classnames'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -13,12 +14,13 @@ import styles from './Navigation.module.css'
 export default function Navigation() {
     const { onLogout } = useContext(AuthenticationContext)
     const pathName = usePathname()
+    const isLogin = pathName === '/'
 
     return (
         <div className={styles.navigation}>
-            <Link className={styles.link} href="/dashboard">CanineFind</Link>
+            <Link className={cn(styles.link, styles.company)} href={isLogin ? '' : "/dashboard"}>CanineFind</Link>
             
-                {pathName !== '/' && (
+                {!isLogin && (
                     <div className={styles.mainNav}>
                     <Link className={styles.link} href="/favorites">Favorites</Link>
                     <Link className={styles.link} href="/match">Find a match</Link>

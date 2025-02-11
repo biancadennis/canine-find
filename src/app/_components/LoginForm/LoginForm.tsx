@@ -4,6 +4,8 @@ import { useState, useContext } from 'react'
 import Input from '@/app/_components/Input'
 import { AuthenticationContext } from '@/app/_context/Authentication'
 
+import styles from './LoginForm.module.css'
+
 export default function Login() {
     const [firstName, setFirstName] = useState('')
     const [email, setEmail] = useState('')
@@ -51,9 +53,11 @@ export default function Login() {
                     )}
                 </>
             )}
-            <form onSubmit={onSubmit}>
-                <Input type="text" value={firstName} label="First Name" onChange={(value) => handleInputUpdate(setFirstName, value)} />\
-                <Input type="text" value={email} label="Email" onChange={(value) => handleInputUpdate(setEmail, value)} />
+            <form className={styles.form} onSubmit={onSubmit}>
+                <div className={styles.inputsWrapper}>
+                    <Input className={styles.input} type="text" value={firstName} label="First Name: " onChange={(value) => handleInputUpdate(setFirstName, value)} />
+                    <Input className={styles.input} type="text" value={email} label="Email: " onChange={(value) => handleInputUpdate(setEmail, value)} />
+                </div>
                 <button type="submit" disabled={submitDisabled}>Find Your Canine</button>
             </form>
         </div>
