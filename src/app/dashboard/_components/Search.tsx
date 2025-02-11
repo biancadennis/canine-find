@@ -9,6 +9,8 @@ import { Checkbox } from '@/app/_components/Checkbox'
 
 import { searchForDogs, getDogsByIds, getDogBreeds } from '@/app/_requests'
 
+import styles from './Search.module.css'
+
 export default function Search() {
     const [breedsToSearchFor, setBreedsToSearchFor] = useState([])
     const [availableBreeds, setAvailableBreeds] = useState([])
@@ -84,8 +86,8 @@ export default function Search() {
     
     // TODO: handle no dogs coming back from search
     return (
-        <div>
-            <label htmlFor="pet-select">Choose a pet:</label>
+        <div className={styles.searchWrapper}>
+            <label htmlFor="pet-select">Choose a pet: </label>
 
             <select name="breeds" id="pet-select" onChange={(e) => toggleBreed(true, e.target.value)}>
             <option value={undefined}>add breed to list</option>
@@ -99,11 +101,11 @@ export default function Search() {
             {map(breedsToSearchFor, breed => {
                     const isChecked = includes(breedsToSearchFor, breed)
                     return (
-                        <Checkbox key={breed} isChecked={isChecked} label={breed} onChange={(shouldBeChecked) => toggleBreed(shouldBeChecked, breed)} />
+                        <Checkbox className={styles.checkbox} key={breed} isChecked={isChecked} label={breed} onChange={(shouldBeChecked) => toggleBreed(shouldBeChecked, breed)} />
                     )
                 })}
-                <p>
-                 Sort by: Breed 
+                <p className={styles.sorter}>
+                 <span className={styles.label}>Sort by: </span> Breed:
                  <Button onClick={() => setSortByAsc(true)}>Asc</Button>
                  <Button onClick={() => setSortByAsc(false)}>Desc</Button>
                 </p>

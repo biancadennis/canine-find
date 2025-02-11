@@ -1,0 +1,21 @@
+.searchWrapper {
+    select {
+        height: 20px;
+        margin-right: 20px;
+    }
+
+    label,
+    .label {
+        font-weight: bold;
+    }
+
+    .sorter {
+        margin: 10px 0px;
+        display: flex;
+        gap: 0px 10px
+    }
+
+    .checkbox {
+        margin-left: 10px;
+    }
+}

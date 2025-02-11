@@ -8,9 +8,10 @@ interface IProps {
     label: string
     isChecked: boolean
     onChange: (text: string) => void
+    className?: string
 }
 
-export default function Input({ onChange, isChecked, label }: IProps) {
+export default function Input({ onChange, isChecked, label, className }: IProps) {
 
     const handleKeyDown = (e) => {
         if (e.key === 'Space' || e.key === 'Enter') {
@@ -23,7 +24,7 @@ export default function Input({ onChange, isChecked, label }: IProps) {
         onChange(!isChecked)
     }
     return (
-       <div className={cn(styles.checkbox, {
+       <div className={cn(className, styles.checkbox, {
         [styles.checked]: isChecked,
         [styles.unchecked]: !isChecked,
        })} role="checkbox" aria-checked={isChecked} tabIndex="0" onKeyDown={handleKeyDown} onClick={onToggle}>
