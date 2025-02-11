@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { sampleSize, map, includes, pull } from 'lodash'
+import { map, includes, pull, difference } from 'lodash'
 
 import { DogGallery } from '@/app/_components/DogGallery'
 import { Checkbox } from '@/app/_components/Checkbox'
@@ -16,6 +16,7 @@ export default function Search() {
     const [prevUrl, setPrevUrl] = useState(undefined)
     const [total, setTotal] = useState()
     const [from, setFrom] = useState()
+    const [sortByAsc, setSortByAsc] = useState(true)
 
     const toggleBreed = (shouldBeAdded: boolean, breed: string) => {
         const newList = [...breedsToSearchFor]
@@ -45,8 +46,9 @@ export default function Search() {
         if (from) {
             queryArray.push(['from', from])
         }
-            const  stringData = new URLSearchParams(queryArray)
-            searchString = stringData.toString()
+        queryArray.push(['sort', `breed:${sortByAsc ? 'asc' : 'desc'}`])
+        const  stringData = new URLSearchParams(queryArray)
+        searchString = stringData.toString()
         return searchString
     }
 
@@ -58,7 +60,7 @@ export default function Search() {
 
     const getBreeds = async () => {
         const res = await getDogBreeds()
-        setAvailableBreeds(sampleSize(res, 5))
+        setAvailableBreeds(res)
     }
 
     useEffect(() => {
@@ -82,15 +84,23 @@ export default function Search() {
     // TODO: handle no dogs coming back from search
     return (
         <div>
-            <fieldset>
-                <legend>Search by a popular breed:</legend>
-            {map(availableBreeds, breed => {
-                const isChecked = includes(breedsToSearchFor, breed)
+            <label htmlFor="pet-select">Choose a pet:</label>
+
+            <select name="breeds" id="pet-select" onChange={(e) => toggleBreed(true, e.target.value)}>
+            <option value={undefined}>add breed to list</option>
+            {map(difference(availableBreeds, breedsToSearchFor), breed => {
                 return (
-                    <Checkbox key={breed} isChecked={isChecked} label={breed} onChange={(shouldBeChecked) => toggleBreed(shouldBeChecked, breed)} />
+                    <option key={breed} value={breed}>{breed}</option>
                 )
             })}
-                </fieldset>
+            
+            </select>
+            {map(breedsToSearchFor, breed => {
+                    const isChecked = includes(breedsToSearchFor, breed)
+                    return (
+                        <Checkbox key={breed} isChecked={isChecked} label={breed} onChange={(shouldBeChecked) => toggleBreed(shouldBeChecked, breed)} />
+                    )
+                })}
             <DogGallery dogs={dogs} total={total} onNextPage={!!nextUrl ? handleNext : undefined} onPrevPage={!!prevUrl ? handlePrev : undefined} onPage={onHandleSpecificPage} />
         </div>
     )
