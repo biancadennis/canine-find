@@ -39,7 +39,7 @@ const jsonHandler = (result, skipParsing) => {
 
   export const logout = () => makeRequest('/auth/logout', 'POST')
 
-  export const searchForDogs = (queryParams) => makeRequest(`/dogs/search?${queryParams}`)
+  export const searchForDogs = (query, useFullQuery) => makeRequest(useFullQuery ? query : `/dogs/search?${query}`)
   
   export const getDogBreeds = () => makeRequest('/dogs/breeds')
 

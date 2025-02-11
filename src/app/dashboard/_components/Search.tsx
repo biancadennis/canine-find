@@ -12,6 +12,10 @@ export default function Search() {
     const [breedsToSearchFor, setBreedsToSearchFor] = useState([])
     const [availableBreeds, setAvailableBreeds] = useState([])
     const [dogs, setDogs] = useState([])
+    const [nextUrl, setNextUrl] = useState(undefined)
+    const [prevUrl, setPrevUrl] = useState(undefined)
+    const [total, setTotal] = useState()
+    const [from, setFrom] = useState()
 
     const toggleBreed = (shouldBeAdded: boolean, breed: string) => {
         const newList = [...breedsToSearchFor]
@@ -23,14 +27,33 @@ export default function Search() {
         setBreedsToSearchFor(newList)
     }
 
-    const getDogs = async () => {
-        const  stringData = new URLSearchParams(breedsToSearchFor.map(s=>['breeds',s]))
-        const searchString = stringData.toString()
+    const queryDogs = async (searchString) => {
         const fetchedDogs = await searchForDogs(searchString)
         const { resultIds, total, next, prev } = fetchedDogs
         const res = await getDogsByIds(resultIds)
         
+        setNextUrl(next)
+        setPrevUrl(prev)
+        setTotal(total)
         setDogs(res)
+        setFrom()
+    }
+
+    const getFilters = (from) => {
+        let searchString = ''
+        const queryArray = [...breedsToSearchFor.map(s=>['breeds',s])]
+        if (from) {
+            queryArray.push(['from', from])
+        }
+            const  stringData = new URLSearchParams(queryArray)
+            searchString = stringData.toString()
+        return searchString
+    }
+
+    const getDogs = async (getByFullQueryString) => {
+        const searchString = getByFullQueryString ?  getByFullQueryString :  getFilters()
+        
+        await queryDogs(searchString)
     }
 
     const getBreeds = async () => {
@@ -45,6 +68,16 @@ export default function Search() {
     useEffect(() => {
         getBreeds()
     }, [])
+
+    const handleNext = () => getDogs(nextUrl)
+    const handlePrev = () => getDogs(prevUrl)
+    const onHandleSpecificPage = async (num) => {
+        const fromNum = num * 25
+        const searchString = getFilters(fromNum)
+        
+        await queryDogs(searchString)
+
+    }
     
     // TODO: handle no dogs coming back from search
     return (
@@ -58,7 +91,7 @@ export default function Search() {
                 )
             })}
                 </fieldset>
-            <DogGallery dogs={dogs} />
+            <DogGallery dogs={dogs} total={total} onNextPage={!!nextUrl ? handleNext : undefined} onPrevPage={!!prevUrl ? handlePrev : undefined} onPage={onHandleSpecificPage} />
         </div>
     )
 }
