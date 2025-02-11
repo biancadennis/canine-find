@@ -12,60 +12,37 @@ import styles from './DogGallery.module.css'
 
 export interface IProps {
     dogs: Array<Dog>
-    onPrevPage?: () => void
-    onNextPage?: () => void
     onPage?: (from:number) => void
     total?: number
 }
 
-export default function DogGallery({dogs, total, onPage, onPrevPage, onNextPage}: IProps) {
+export default function DogGallery({dogs, total, onPage}: IProps) {
     const [currentPage, setCurrentPage] = useState(1)
     const handleClick = (fn) => {
         fn()
         window.scrollTo('0', '0')
     }
     const showNavigation = total && total > 25
-    const numPages = !!total ? Math.floor(total / 25) : 0
-    const pagesArray = Array.from(Array(numPages).keys())
-    
-    const handlePage = (from) => {
-        setCurrentPage(from)
-        handleClick(() => onPage(from))
-    }
+    const numPages = !!total ? Math.ceil(total / 25) : 0
+    console.log('num pages', numPages)
 
-    const handleNextOrPrev = (fn, isNext) => {
-        if (isNext) {
-            const nextPage = currentPage + 1
+    const handleNextOrPrev = (isNext) => {
+        const nextPage = isNext ? currentPage + 1 : currentPage - 1
+        if (nextPage > 0 && nextPage <= numPages) {
             setCurrentPage(nextPage)
-            if (!!onNextPage) {
-                handleClick(fn)
-            } else {
-                handlePage(nextPage)
-            }
-        } else {
-            const nextPage = currentPage - 1
             setCurrentPage(nextPage)
-            if (!!onPrevPage) {
-                handleClick(fn)
-            } else {
-                handlePage(nextPage)
-            }
+            handleClick(() => onPage(nextPage))
         }
         
     }
 
-    const renderPageButton = (page: number) => {
-        const pageNum = page + 1
-        return (
-            <div key={page} className={cn(styles.pageButton)} >
-                <Button 
-                type={currentPage == pageNum ? 'primary' : 'secondary'}
-                onClick={() => handlePage(pageNum)}>
-                {pageNum}
-            </Button>
-            </div>
-        )
+    const getStartAndEnd = () => {
+        const end = currentPage * 25
+        const start = (currentPage - 1) * 25 + 1
+        return ({start, end})
     }
+
+    const {start, end} = getStartAndEnd()
 
     return (
         <div>
@@ -73,24 +50,12 @@ export default function DogGallery({dogs, total, onPage, onPrevPage, onNextPage}
             {map(dogs, (dog:Dog) => <DogTile key={dog.id} dog={dog} /> )}
             </div>
             {showNavigation && (
-                <div>
+                <div className={styles.paginationWrapper}>
                     <div className={styles.pagination}>
-                    <Button onClick={() => handleNextOrPrev(onPrevPage)}>Prev</Button>
-                        {numPages > 10 ? (
-                            <div>
-                            {map(take(pagesArray, 5), page => renderPageButton(page))}
-                            <div>...</div>
-                            {map(takeRight(pagesArray, 5), page => renderPageButton(page))}
-                            </div>
-                        ) : (
-                         <>
-                            {map(pagesArray, page => renderPageButton(page, false))}
-                         </>
-                        )}
-
-                    <Button onClick={() => handleNextOrPrev(onNextPage, true)}>Next</Button>
+                    <Button onClick={() => handleNextOrPrev(false)}>Prev</Button>
+                    <Button onClick={() => handleNextOrPrev(true)}>Next</Button>
                     </div>
-                    {total && <span>{total}</span>}
+                    {total && <span className={styles.resultsInfo}>{start}-{end} of {total}</span>}
                 </div>
             )}
         </div>

@@ -15,10 +15,7 @@ export default function Search() {
     const [breedsToSearchFor, setBreedsToSearchFor] = useState([])
     const [availableBreeds, setAvailableBreeds] = useState([])
     const [dogs, setDogs] = useState([])
-    const [nextUrl, setNextUrl] = useState(undefined)
-    const [prevUrl, setPrevUrl] = useState(undefined)
     const [total, setTotal] = useState()
-    const [from, setFrom] = useState()
     const [sortByAsc, setSortByAsc] = useState(true)
 
     const toggleBreed = (shouldBeAdded: boolean, breed: string) => {
@@ -36,11 +33,8 @@ export default function Search() {
         const { resultIds, total, next, prev } = fetchedDogs
         const res = await getDogsByIds(resultIds)
         
-        setNextUrl(next)
-        setPrevUrl(prev)
         setTotal(total)
         setDogs(res)
-        setFrom()
     }
 
     const getFilters = (from) => {
@@ -74,10 +68,9 @@ export default function Search() {
         getBreeds()
     }, [])
 
-    const handleNext = () => getDogs(nextUrl)
-    const handlePrev = () => getDogs(prevUrl)
     const onHandleSpecificPage = async (num) => {
-        const fromNum = num * 25
+        const fromNum = (num - 1) * 25
+        console.log('fromnum', num, fromNum)
         const searchString = getFilters(fromNum)
         
         await queryDogs(searchString)
@@ -109,7 +102,7 @@ export default function Search() {
                  <Button onClick={() => setSortByAsc(true)}>Asc</Button>
                  <Button onClick={() => setSortByAsc(false)}>Desc</Button>
                 </div>
-            <DogGallery dogs={dogs} total={total} onNextPage={!!nextUrl ? handleNext : undefined} onPrevPage={!!prevUrl ? handlePrev : undefined} onPage={onHandleSpecificPage} />
+            <DogGallery dogs={dogs} total={total} onPage={onHandleSpecificPage} />
         </div>
     )
 }

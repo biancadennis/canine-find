@@ -7,11 +7,21 @@
 }
 .pageButton {
     display: inline-block;
-
 }
 
 .pagination {
     margin-top: 20px;
     display: flex;
     justify-content: center;
+}
+.paginationWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.resultsInfo {
+    margin-top: 10px;
+    font-weight: bolder;
 }
