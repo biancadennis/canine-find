@@ -1,0 +1,33 @@
+.primary,
+.secondary {
+    min-height: 30px;
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 5px;
+    width: fit-content;
+
+}
+
+.secondary {
+    border: 3px solid #0D3309;
+    color: #2B2B2B;
+
+    &:hover,
+    &:focus {
+        color: white;
+        background-color: #0D3309;
+    }
+}
+
+.primary {
+    background-color: #0D3309;
+    color: white;
+
+    &:hover,
+    &:focus {
+        border: 3px solid #0D3309;
+        color: #2B2B2B;
+        background-color: unset;
+    }
+}
