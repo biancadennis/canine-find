@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { map, includes, pull, difference } from 'lodash'
 
+import { Button } from '@/app/_components/Button'
 import { DogGallery } from '@/app/_components/DogGallery'
 import { Checkbox } from '@/app/_components/Checkbox'
 
@@ -65,7 +66,7 @@ export default function Search() {
 
     useEffect(() => {
         getDogs()
-    }, [breedsToSearchFor])
+    }, [breedsToSearchFor, sortByAsc])
 
     useEffect(() => {
         getBreeds()
@@ -101,6 +102,11 @@ export default function Search() {
                         <Checkbox key={breed} isChecked={isChecked} label={breed} onChange={(shouldBeChecked) => toggleBreed(shouldBeChecked, breed)} />
                     )
                 })}
+                <p>
+                 Sort by: Breed 
+                 <Button onClick={() => setSortByAsc(true)}>Asc</Button>
+                 <Button onClick={() => setSortByAsc(false)}>Desc</Button>
+                </p>
             <DogGallery dogs={dogs} total={total} onNextPage={!!nextUrl ? handleNext : undefined} onPrevPage={!!prevUrl ? handlePrev : undefined} onPage={onHandleSpecificPage} />
         </div>
     )
