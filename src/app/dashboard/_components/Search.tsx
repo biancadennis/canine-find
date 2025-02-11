@@ -70,7 +70,6 @@ export default function Search() {
 
     const onHandleSpecificPage = async (num) => {
         const fromNum = (num - 1) * 25
-        console.log('fromnum', num, fromNum)
         const searchString = getFilters(fromNum)
         
         await queryDogs(searchString)

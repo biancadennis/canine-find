@@ -24,7 +24,6 @@ export default function DogGallery({dogs, total, onPage}: IProps) {
     }
     const showNavigation = total && total > 25
     const numPages = !!total ? Math.ceil(total / 25) : 0
-    console.log('num pages', numPages)
 
     const handleNextOrPrev = (isNext) => {
         const nextPage = isNext ? currentPage + 1 : currentPage - 1
