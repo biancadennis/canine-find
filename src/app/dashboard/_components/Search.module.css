@@ -1,7 +1,8 @@
 .searchWrapper {
-    select {
-        height: 20px;
+    .select {
+            height: 25px;
         margin-right: 20px;
+        margin-bottom: 10px;
     }
 
     label,

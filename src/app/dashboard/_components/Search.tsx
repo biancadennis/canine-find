@@ -81,7 +81,7 @@ export default function Search() {
         <div className={styles.searchWrapper}>
             <label htmlFor="pet-select">Choose a pet: </label>
 
-            <select name="breeds" id="pet-select" onChange={(e) => toggleBreed(true, e.target.value)}>
+            <select className={styles.select} name="breeds" id="pet-select" onChange={(e) => toggleBreed(true, e.target.value)}>
             <option value={undefined}>add breed to list</option>
             {map(difference(availableBreeds, breedsToSearchFor), breed => {
                 return (
