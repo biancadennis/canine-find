@@ -41,5 +41,8 @@ Things I would improve with more time
 - Dark Mode
 - cache favorites
 - clear favorites on logout
+- better image resizing on mobile
+- better styling on mobile
+- accessibility
 - UNIT TESTING
 
