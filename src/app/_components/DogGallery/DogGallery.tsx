@@ -1,36 +1,36 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import cn from 'classnames'
+import { useState } from 'react'
 
-import { map, take, takeRight } from 'lodash'
+import { map } from 'lodash'
 
 import { Button } from '@/app/_components/Button'
-import { DogTile, Dog } from '@/app/_components/DogTile'
+import { DogTile } from '@/app/_components/DogTile'
+
+import { IDog } from '@/app/_types/sharedTypes'
 
 import styles from './DogGallery.module.css'
 
 export interface IProps {
-    dogs: Array<Dog>
+    dogs: Array<IDog>
     onPage?: (from:number) => void
     total?: number
 }
 
 export default function DogGallery({dogs, total, onPage}: IProps) {
     const [currentPage, setCurrentPage] = useState(1)
-    const handleClick = (fn) => {
-        fn()
-        window.scrollTo('0', '0')
-    }
     const showNavigation = total && total > 25
     const numPages = !!total ? Math.ceil(total / 25) : 0
 
-    const handleNextOrPrev = (isNext) => {
+    const handleNextOrPrev = (isNext: boolean) => {
         const nextPage = isNext ? currentPage + 1 : currentPage - 1
         if (nextPage > 0 && nextPage <= numPages) {
             setCurrentPage(nextPage)
             setCurrentPage(nextPage)
-            handleClick(() => onPage(nextPage))
+            if (onPage) {
+                onPage(nextPage)
+                 window.scrollTo(0, 0)
+            }
         }
         
     }
@@ -46,7 +46,7 @@ export default function DogGallery({dogs, total, onPage}: IProps) {
     return (
         <div>
             <div className={styles.dogGallery}>
-            {map(dogs, (dog:Dog) => <DogTile key={dog.id} dog={dog} /> )}
+            {map(dogs, (dog:IDog) => <DogTile key={dog.id} dog={dog} /> )}
             </div>
             {showNavigation && (
                 <div className={styles.paginationWrapper}>

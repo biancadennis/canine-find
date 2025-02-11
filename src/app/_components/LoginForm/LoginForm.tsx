@@ -9,7 +9,7 @@ import styles from './LoginForm.module.css'
 export default function Login() {
     const [firstName, setFirstName] = useState('')
     const [email, setEmail] = useState('')
-    const [errorMessage, setErrorMessage] = useState(null)
+    const [errorMessage, setErrorMessage] = useState('')
     const [errorCount, setErrorCount] = useState(0)
 
     const { onLogin } = useContext(AuthenticationContext);
@@ -19,7 +19,7 @@ export default function Login() {
 
     const hasFirstName = firstName.length > 1
     const hasEmail = email.length > 1 // TODO: validate email formatted properly
-    const submitDisabled = errorMessage || !hasEmail || !hasFirstName
+    const submitDisabled = !!errorMessage || !hasEmail || !hasFirstName
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -34,8 +34,8 @@ export default function Login() {
         }
     }
 
-    const handleInputUpdate = (fn, value) => {
-        errorMessage && setErrorMessage(undefined)
+    const handleInputUpdate = (fn: (text:string) => void, value: string) => {
+        if (!!errorMessage) setErrorMessage('')
         fn(value)
     }
 

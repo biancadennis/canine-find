@@ -44,5 +44,6 @@ Things I would improve with more time
 - better image resizing on mobile
 - better styling on mobile
 - accessibility
+- disabled button state
 - UNIT TESTING
 

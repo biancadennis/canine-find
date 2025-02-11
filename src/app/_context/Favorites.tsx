@@ -2,16 +2,17 @@
 import { createContext, useState, useEffect } from 'react';
 import { reject, some, countBy, forEach } from 'lodash'
 
-import { IDog } from '@/_types/sharedTypes'
+import { IDog } from '@/app/_types/sharedTypes'
 
 export interface IFavorites {
     favorites: IDog[]
     favoriteBreeds: string[]
-    onToggleFavorite: (IDog) => void
+    onToggleFavorite: (dog: IDog) => void
 }
 
 const defaultContext: IFavorites = {
-    favorites: [] ,
+    favorites: [],
+    favoriteBreeds: [],
     onToggleFavorite: () => {}
 }
 
@@ -22,15 +23,15 @@ interface IProps {
 export const FavoritesContext = createContext(defaultContext);
 
 export function Favorites({ children }: IProps) {
-    const [favorites, setFavorites] = useState([]);
-    const [favoriteBreeds, setFavoriteBreeds] = useState([])
+    const [favorites, setFavorites] = useState<IDog[]>([]);
+    const [favoriteBreeds, setFavoriteBreeds] = useState<string[]>([])
 
     useEffect(() => {
         const tally = countBy(favorites, 'breed')
-        const newList = []
-        forEach(tally, (value, key) => {
+        const newList: string[] = []
+        forEach(tally, (value, id) => {
             if (value > 1) {
-                newList.push(key)
+                newList.push(id)
             }
         })
         setFavoriteBreeds(newList)

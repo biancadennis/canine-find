@@ -6,14 +6,13 @@ import styles from './Button.module.css'
 
 interface IProps {
     onClick: () => void
-    disabled?: false
     children: React.ReactNode
     className?: string
-    type: 'primary' | 'secondary' | 'tertiary'
+    type?: 'primary' | 'secondary' | 'tertiary'
 }
 
-export function Button ({onClick, disabled, children, className, type = 'secondary'}: IProps) {
-    const handleKeyDown = (e) => {
+export function Button ({onClick, children, className, type = 'secondary'}: IProps) {
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLImageElement>) => {
         if (e.key === 'Enter') {
             onClick()
         }
@@ -21,7 +20,7 @@ export function Button ({onClick, disabled, children, className, type = 'seconda
     return (
         <div className={cn(className, {
             [styles[type]]: type,
-        })} disabled={!onClick || disabled} role="button" tabIndex="0" onClick={onClick} onKeyDown={handleKeyDown}>
+        })} role="button" tabIndex={0} onClick={onClick} onKeyDown={handleKeyDown}>
             {children}
         </div>
     )

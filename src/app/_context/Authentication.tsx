@@ -1,5 +1,5 @@
 'use client'
-import { createContext, useState } from 'react';
+import { createContext } from 'react';
 import { useRouter } from 'next/navigation'
 
 import { login, logout } from '@/app/_requests'
@@ -10,14 +10,12 @@ type TLoginBody = {
 }
 
 interface IAuthentication {
-    isAuthenticated: boolean
-    onLogin: (loginBody: TLoginBody) => void
+    onLogin: (loginBody: TLoginBody) => Promise<boolean>
     onLogout: () => void
 }
 
 const defaultContext: IAuthentication = {
-    isAuthenticated: false,
-    onLogin: () => { },
+    onLogin: () => Promise.resolve(false),
     onLogout: () => { },
 }
 
@@ -37,7 +35,8 @@ export function Authentication({ children }: IProps) {
                 email: body.email,
             })
             router.push('/dashboard')
-        } catch (e) {
+            return true
+        } catch {
             return false
         }
     }

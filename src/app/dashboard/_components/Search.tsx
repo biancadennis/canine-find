@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { map, includes, pull, difference } from 'lodash'
+import { map, pull, difference } from 'lodash'
 
 import { Button } from '@/app/_components/Button'
 import { DogGallery } from '@/app/_components/DogGallery'
@@ -12,14 +12,14 @@ import { searchForDogs, getDogsByIds, getDogBreeds } from '@/app/_requests'
 import styles from './Search.module.css'
 
 export default function Search() {
-    const [breedsToSearchFor, setBreedsToSearchFor] = useState([])
+    const [breedsToSearchFor, setBreedsToSearchFor] = useState<string[]>([])
     const [availableBreeds, setAvailableBreeds] = useState([])
     const [dogs, setDogs] = useState([])
     const [total, setTotal] = useState()
     const [sortByAsc, setSortByAsc] = useState(true)
 
     const toggleBreed = (shouldBeAdded: boolean, breed: string) => {
-        const newList = [...breedsToSearchFor]
+        const newList: string[] = [...breedsToSearchFor]
         if (shouldBeAdded) {
             newList.push(breed)
         } else {
@@ -28,18 +28,18 @@ export default function Search() {
         setBreedsToSearchFor(newList)
     }
 
-    const queryDogs = async (searchString) => {
+    const queryDogs = async (searchString: string) => {
         const fetchedDogs = await searchForDogs(searchString)
-        const { resultIds, total, next, prev } = fetchedDogs
+        const { resultIds, total } = fetchedDogs
         const res = await getDogsByIds(resultIds)
         
         setTotal(total)
         setDogs(res)
     }
 
-    const getFilters = (from) => {
+    const getFilters = (from?: string) => {
         let searchString = ''
-        const queryArray = [...breedsToSearchFor.map(s=>['breeds',s])]
+        const queryArray: string[][] = [...breedsToSearchFor.map(s=>['breeds',s])]
         if (from) {
             queryArray.push(['from', from])
         }
@@ -49,7 +49,7 @@ export default function Search() {
         return searchString
     }
 
-    const getDogs = async (getByFullQueryString) => {
+    const getDogs = async (getByFullQueryString?:string) => {
         const searchString = getByFullQueryString ?  getByFullQueryString :  getFilters()
         
         await queryDogs(searchString)
@@ -68,9 +68,9 @@ export default function Search() {
         getBreeds()
     }, [])
 
-    const onHandleSpecificPage = async (num) => {
+    const onHandleSpecificPage = async (num: number) => {
         const fromNum = (num - 1) * 25
-        const searchString = getFilters(fromNum)
+        const searchString = getFilters(fromNum.toString())
         
         await queryDogs(searchString)
 
@@ -79,7 +79,7 @@ export default function Search() {
     // TODO: handle no dogs coming back from search
     return (
         <div className={styles.searchWrapper}>
-            <label htmlFor="pet-select">Choose a pet: </label>
+            <label className={styles.label} htmlFor="pet-select">Choose a pet: </label>
 
             <select className={styles.select} name="breeds" id="pet-select" onChange={(e) => toggleBreed(true, e.target.value)}>
             <option value={undefined}>add breed to list</option>
@@ -92,7 +92,12 @@ export default function Search() {
             </select>
             {map(breedsToSearchFor, breed => {
                     return (
-                        <Checkbox className={styles.checkbox} key={breed} isChecked={true} label={breed} onChange={(shouldBeChecked) => toggleBreed(shouldBeChecked, breed)} />
+                        <Checkbox 
+                        className={styles.checkbox} 
+                        key={breed} 
+                        isChecked={true} 
+                        label={breed} 
+                        onChange={(shouldBeChecked) => toggleBreed(shouldBeChecked, breed)} />
                     )
                 })}
                 <div className={styles.sorter}>

@@ -36,7 +36,9 @@ export default function MatchFinder() {
         const favIds = map(favorites, dog => dog.id)
         const { match } = await getMatch(favIds)
         const doggos = await getDogsByIds([match])
-        doggos.length > 0 && setMatch(doggos[0])
+        if(doggos.length > 0) {
+            setMatch(doggos[0])
+        }
     }
 
     return (
