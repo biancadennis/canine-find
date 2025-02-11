@@ -1,5 +1,6 @@
 .primary,
-.secondary {
+.secondary,
+.tertiary {
     min-height: 30px;
     display: flex;
     align-items: center;
@@ -29,5 +30,16 @@
         border: 3px solid #0D3309;
         color: #2B2B2B;
         background-color: unset;
+    }
+}
+.tertiary {
+    border: 3px solid #0D3309;
+    background-color: white;
+    color: #2B2B2B;
+
+    &:hover,
+    &:active {
+        background-color: #0D3309;
+        color: white;
     }
 }

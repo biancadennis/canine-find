@@ -40,7 +40,7 @@ export default function DogTile({dog}: IProps) {
                         <span>(You Love this Breed!)</span>
                     )}
                 </div>
-                <Button type="primary" onClick={() => onToggleFavorite(dog) }>
+                <Button type="tertiary" onClick={() => onToggleFavorite(dog) }>
                     {isFavorite ? 'Remove from favorites' : 'Add to favorites'}
                 </Button>
             </div>

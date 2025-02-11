@@ -5,6 +5,13 @@
     flex-wrap: wrap;
     gap: 30px 22px;
 }
-.currentPage {
-    border: 1px solid orange;
+.pageButton {
+    display: inline-block;
+
+}
+
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
 }

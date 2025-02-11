@@ -9,7 +9,7 @@ interface IProps {
     disabled?: false
     children: React.ReactNode
     className?: string
-    type: 'primary' | 'secondary'
+    type: 'primary' | 'secondary' | 'tertiary'
 }
 
 export function Button ({onClick, disabled, children, className, type = 'secondary'}: IProps) {

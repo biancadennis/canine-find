@@ -104,11 +104,11 @@ export default function Search() {
                         <Checkbox className={styles.checkbox} key={breed} isChecked={isChecked} label={breed} onChange={(shouldBeChecked) => toggleBreed(shouldBeChecked, breed)} />
                     )
                 })}
-                <p className={styles.sorter}>
+                <div className={styles.sorter}>
                  <span className={styles.label}>Sort by: </span> Breed:
                  <Button onClick={() => setSortByAsc(true)}>Asc</Button>
                  <Button onClick={() => setSortByAsc(false)}>Desc</Button>
-                </p>
+                </div>
             <DogGallery dogs={dogs} total={total} onNextPage={!!nextUrl ? handleNext : undefined} onPrevPage={!!prevUrl ? handlePrev : undefined} onPage={onHandleSpecificPage} />
         </div>
     )

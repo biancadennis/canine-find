@@ -19,13 +19,13 @@ export interface IProps {
 }
 
 export default function DogGallery({dogs, total, onPage, onPrevPage, onNextPage}: IProps) {
-    const [currentPage, setCurrentPage] = useState()
+    const [currentPage, setCurrentPage] = useState(1)
     const handleClick = (fn) => {
         fn()
         window.scrollTo('0', '0')
     }
     const showNavigation = total && total > 25
-    const numPages = !!total ? Math.ceil(total / 25) : 0
+    const numPages = !!total ? Math.floor(total / 25) : 0
     const pagesArray = Array.from(Array(numPages).keys())
     
     const handlePage = (from) => {
@@ -33,21 +33,39 @@ export default function DogGallery({dogs, total, onPage, onPrevPage, onNextPage}
         handleClick(() => onPage(from))
     }
 
+    const handleNextOrPrev = (fn, isNext) => {
+        if (isNext) {
+            const nextPage = currentPage + 1
+            setCurrentPage(nextPage)
+            if (!!onNextPage) {
+                handleClick(fn)
+            } else {
+                handlePage(nextPage)
+            }
+        } else {
+            const nextPage = currentPage - 1
+            setCurrentPage(nextPage)
+            if (!!onPrevPage) {
+                handleClick(fn)
+            } else {
+                handlePage(nextPage)
+            }
+        }
+        
+    }
+
     const renderPageButton = (page: number) => {
         const pageNum = page + 1
         return (
-            <div key={page} className={cn({[styles.currentPage]: currentPage == pageNum})} >
+            <div key={page} className={cn(styles.pageButton)} >
                 <Button 
-                onClick={() => handlePage(page+1)}>
+                type={currentPage == pageNum ? 'primary' : 'secondary'}
+                onClick={() => handlePage(pageNum)}>
                 {pageNum}
             </Button>
             </div>
         )
     }
-
-    useEffect(() => {
-        setCurrentPage(undefined)
-    }, [total])
 
     return (
         <div>
@@ -56,25 +74,23 @@ export default function DogGallery({dogs, total, onPage, onPrevPage, onNextPage}
             </div>
             {showNavigation && (
                 <div>
-                    {!!onPrevPage && (
-                <Button onClick={() => handleClick(onPrevPage)}>Prev</Button>
-            )}
-            {numPages > 20 ? (
-                <div>
-                    {map(take(pagesArray, 10), page => renderPageButton(page))}
-                    <div>...</div>
-                    {map(takeRight(pagesArray, 10), page => renderPageButton(page))}
-                </div>
-            ) : (
-                <>
-                {map(pagesArray, page => renderPageButton(page))}
-                </>
-            )}
+                    <div className={styles.pagination}>
+                    <Button onClick={() => handleNextOrPrev(onPrevPage)}>Prev</Button>
+                        {numPages > 10 ? (
+                            <div>
+                            {map(take(pagesArray, 5), page => renderPageButton(page))}
+                            <div>...</div>
+                            {map(takeRight(pagesArray, 5), page => renderPageButton(page))}
+                            </div>
+                        ) : (
+                         <>
+                            {map(pagesArray, page => renderPageButton(page, false))}
+                         </>
+                        )}
 
-            {!!onNextPage && (
-                <Button onClick={() => handleClick(onNextPage)}>Next</Button>
-            )}
-             {total && <span>{total}</span>}
+                    <Button onClick={() => handleNextOrPrev(onNextPage, true)}>Next</Button>
+                    </div>
+                    {total && <span>{total}</span>}
                 </div>
             )}
         </div>
